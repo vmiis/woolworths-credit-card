@@ -87,7 +87,7 @@ $(document).ready(function(){
 		var txt=localStorage.getItem(url+"_txt");
 		//------------------------------------------
 		if(ver!=$vm.version || txt===null || $vm.debug===true || $vm.reload!=''){
-			console.log('loading from '+url+'?_='+$vm.version+$vm.reload);
+			console.log('loading '+url+'?_='+$vm.version+$vm.reload);
 			$.get(url+'?_='+$vm.version+$vm.reload,function(data){
 				localStorage.setItem(url+"_txt",data);
 				localStorage.setItem(url+"_ver",$vm.version);
