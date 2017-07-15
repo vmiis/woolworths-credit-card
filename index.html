@@ -102,6 +102,8 @@ $(document).ready(function(){
 	$vm.url=function(text){
 		text=text.replace(/__BASE__\/vmiis\/Common-Code\//g,'__PARTS__/');
 		text=text.replace(/__LIB__\/vmiis\/Common-Code\//g,'__PARTS__/');
+		text=text.replace(/__BASE__\/vmiis\/common-code\//g,'__PARTS__/');
+		text=text.replace(/__LIB__\/vmiis\/common-code\//g,'__PARTS__/');
 		text=text.replace(/__BASE__\//g,$vm.library_path+'/');
 		text=text.replace(/__LIB__\//g,$vm.library_path+'/');
 		text=text.replace(/__PARTS__\//g,$vm.parts_path+'/');
