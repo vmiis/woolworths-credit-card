@@ -9,6 +9,10 @@
 		"home":
 		{
 			"url":"https://vmiis.github.io/modules/home/home.html"
+		},
+		"about":
+		{
+			"url":"https://vmiis.github.io/modules/datalinkedin/panel.html"
 		}
 	},
 	"panels":
