@@ -87,6 +87,10 @@ var data_process=function(data_records){
 }
 //-------------------------------------
 _data_process=function(){
+    var r=_records;
+    _records=data_process(r);
+    _simple_render();
+    /*
     $vm.alert('Working hard...');
     var r=_records;
     _records=[];
@@ -95,6 +99,7 @@ _data_process=function(){
         _simple_render();
         $vm.close_alert();
     }, 100);
+    */
 }
 //-------------------------------------
 _set_req=_set_req_export=function(){

@@ -1,4 +1,3 @@
-# Woolworths Credit Card
+# woolworths-credit-card
 
-https://vmiis.github.io/woolworths-credit-card/index.html  
-https://vmiis.github.io/woolworths-credit-card/index.html?database=production  
+https://vmiis.github.io/woolworths-credit-card/  

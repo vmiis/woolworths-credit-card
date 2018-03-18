@@ -1,17 +1,23 @@
 <section>
     <div id=toolbar__ID>
-        <a id=back__ID>Back</a>
     	<span class=tab__ID></span>Aggregation Details
     </div>
     <div id=table__ID>
         <table id=grid__ID></table>
     </div>
 </section>
+<style>
+    #toolbar__ID{
+        background-color:#ccc;
+        padding:5px 0px;
+        margin-bottom:0px;
+        overflow:hidden
+    }
+</style>
 <script>
 function F__ID(){
     //---------------------------------------------
-    VmInclude:__BASE__/vmiis/Common-Code/grid/grid.js
-    VmInclude:__BASE__/vmiis/Common-Code/style/ease-in-out.js
+    VmInclude:__COMPONENT__/grid/grid.v3.js
     //---------------------------------------------
     _fields="Name,Amount";
     //---------------------------------------------
@@ -35,5 +41,5 @@ function F__ID(){
 }
 </script>
 <style>
-    VmInclude:__BASE__/vmiis/Common-Code/grid/grid.css
+    VmInclude:__COMPONENT__/grid/grid.v3.css
 </style>

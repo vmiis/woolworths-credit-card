@@ -1,9 +1,10 @@
 <section>
-    <div id=toolbar__ID>
-        <a id=back__ID>Back</a>
-        <span class=tab__ID></span><select id=YY__ID type=select></select></select>
-        <a id=query_data__ID >Load</a>
-    	<span class=tab__ID></span>Business Intelligence Processing
+    <div id=toolbar__ID class="navbar navbar-default">
+        <div class="navbar-left form-inline">
+            <select id=YY__ID type=select class="form-control" style='display:inline-block;width:auto;margin-right:3px'></select>
+            <button type=button id=query_data__ID class='btn btn-secondary'>Load</button>
+        	<span class=tab__ID></span>Business Intelligence Processing
+        </div>
     </div>
     <div id=table__ID>
         <table id=grid__ID>
@@ -38,11 +39,11 @@
 <script>
 function F__ID(){
     //------------------------
-    VmInclude:__BASE__/vmiis/Common-Code/grid/grid.js
-    VmInclude:__BASE__/vmiis/Common-Code/style/ease-in-out.js
+    VmInclude:__COMPONENT__/grid/grid.js
     //------------------------
-    var _module=$vm.module_list[$vm.vm['__ID'].name];
-    //------------------------
+    var prefix=_mlist[$vm.vm['__ID'].name].prefix;
+    var record_tid=_mlist[prefix+'transaction-import'].table_id;
+	//-------------------------------------
     //year dropdown
     var $List=$('#YY__ID');
     var y=new Date().getFullYear();
@@ -90,7 +91,7 @@ function F__ID(){
                     tr.find('td').eq(2).find('u').data('rid',res.records[i].ID);
                     tr.find('td').eq(2).find('u').on('click',function(){
                         var rid=$(this).data('rid');
-                    	$vm.load_module_by_name(_ids.bi_processing_details,$vm.root_layout_content_slot,{rid:rid});
+                    	$vm.load_module_by_name(prefix+'transaction-bi-details',$vm.root_layout_content_slot,{rid:rid});
                     })
                 }
                 else tr.find('td').eq(2).text(Num)
@@ -107,7 +108,7 @@ function F__ID(){
         var N=0;
         dbv.V1=$('#YY__ID').val();
         dbv.V2=m.toString();
-        var sql="with tb as(select V1,V2,S1,S2,DateTime,Author,Modified,MAuthor from [TABLE-"+_module.var.record_tid+"] where DatePart(yy,DT1)=@I1 and DatePart(mm,DT1)=@I2)";
+        var sql="with tb as(select V1,V2,S1,S2,DateTime,Author,Modified,MAuthor from [TABLE-"+record_tid+"] where DatePart(yy,DT1)=@I1 and DatePart(mm,DT1)=@I2)";
         sql+=" select amount=sum(V1),S1,S2 from tb group by S1,S2";
         $VmAPI.request({data:{cmd:'query_records',sql:sql,i1:$('#YY__ID').val(),i2:m.toString()},callback:function(res){
             for(var i=0;i<res.records.length;i++){
@@ -120,52 +121,48 @@ function F__ID(){
                 }
             }
             dbv.V3=res.records.length;
-            var sql="with tb as(select V1,V2,S1,S2,DateTime,Author,Modified,MAuthor from [TABLE-"+_module.var.record_tid+"] where DatePart(yy,DT1)=@I1 and DatePart(mm,DT1)=@I2)";
-            sql+=" select amount=sum(V2),S1,S2 from tb group by S1,S2";
-            $VmAPI.request({data:{cmd:'query_records',sql:sql,i1:$('#YY__ID').val(),i2:m.toString()},callback:function(res){
-                for(var i=0;i<res.records.length;i++){
-                    var data_name=res.records[i].S1+"_1_1_1_"+res.records[i].S2;
-                    var clean_data_name='c_'+data_name.replace(/ /g,'_').replace(/[|&;$%@"<>()+,]/g, "");
-                    var data_value=res.records[i].amount;
-                    if(data_value!='' && data_value!='0'){
-                        record[clean_data_name]=data_value;
-                        N++;
-                    }
+            var rid=0;
+            for(var i=0;i<records.length;i++){
+                if(records[i].V2==m){
+                    rid=records[i].ID;
+                    break;
                 }
-                dbv.V3=N;
-                //alert(JSON.stringify(record));
-                //alert(JSON.stringify(dbv));
-                //------------------------------------------
-                //add bi results
-                var rid=0;
-                for(var i=0;i<records.length;i++){
-                    if(records[i].V2==m){
-                        rid=records[i].ID;
-                        break;
-                    }
-                }
-                if(rid==0){
+            }
+            if(rid==0){
+                var req={cmd:"add_record",db_pid:_db_pid.toString(),data:record,dbv:dbv};
+                $VmAPI.request({data:req,callback:function(res){
+                    request_data();
+                }});
+            }
+            else{
+                var req={cmd:"delete_record",rid:rid,db_pid:_db_pid.toString()};
+                $VmAPI.request({data:req,callback:function(res){
                     var req={cmd:"add_record",db_pid:_db_pid.toString(),data:record,dbv:dbv};
                     $VmAPI.request({data:req,callback:function(res){
                         request_data();
                     }});
-                }
-                else{
-                    var req={cmd:"delete_record",rid:rid,db_pid:_db_pid.toString()};
-                    $VmAPI.request({data:req,callback:function(res){
-                        var req={cmd:"add_record",db_pid:_db_pid.toString(),data:record,dbv:dbv};
-                        $VmAPI.request({data:req,callback:function(res){
-                            request_data();
-                        }});
-                    }});
-                }
-                //------------------------------------------
-            }});
+                }});
+            }
+            //------------------------------------------
         }});
     })
     //-------------------------------------
 }
 </script>
 <style>
-    VmInclude:__BASE__/vmiis/Common-Code/grid/grid.css
+    VmInclude:__COMPONENT__/grid/grid.v3.css
+    #toolbar__ID{
+		background-color:#ccc;
+		padding-left:10px;
+		margin-bottom:0px;
+		overflow:hidden'
+	}
+	@media screen and (max-width:768px){
+		#toolbar__ID{
+			padding: 3px 10px;
+		}
+		#toolbar__ID div{
+			padding-left:3px;
+		}
+	}
 </style>

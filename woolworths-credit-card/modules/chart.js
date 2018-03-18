@@ -87,14 +87,18 @@ var data_process=function(data_records){
 }
 //-------------------------------------
 _data_process=function(){
+    var r=_records;
+    _records=data_process(r);
+    chart(_records);
+    /*
     $vm.alert('Working hard...');
     var r=_records;
-    _records=[];
+    _records=data_process(r);
+    chart(_records);
     setTimeout(function(){
-        _records=data_process(r);
-        chart(_records);
         $vm.close_alert();
-    }, 100);
+    }, 500);
+    */
 }
 //-------------------------------------
 var selected_item='';

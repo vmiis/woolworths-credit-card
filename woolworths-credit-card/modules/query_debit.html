@@ -1,27 +1,46 @@
 <section>
-    <div id=toolbar__ID>
-        <a id=back__ID>Back</a>
-        <span class=tab__ID></span><select id=YY__ID type=select></select>
-        <a id=aquery__ID >Query</a>
-        <a id=export__ID >Export</a>
+    <div id=toolbar__ID class="navbar-left form-inline">
+        <select id=YY__ID type=select class="form-control" style='display:inline-block;width:auto;margin-right:3px'></select>
+        <button id=aquery__ID type=button class='btn btn-secondary'>Query</button>
+        <button id=export__ID type=button class='btn btn-secondary'>Export</button>
     	<span class=tab__ID></span>Debit Query
-        <span class=tab__ID></span>
     </div>
     <div id=table__ID>
         <table id=grid__ID></table>
     </div>
 </section>
+<style>
+	#toolbar__ID{
+		background-color:#ccc;
+		padding:5px 0px;
+		margin-bottom:0px;
+		overflow:hidden
+	}
+	#toolbar__ID *{
+		margin-right:3px;
+	}
+	@media screen and (max-width:768px){
+		#toolbar__ID{
+			padding: 3px 0;
+		}
+		#toolbar__ID div{
+			padding-left:3px;
+		}
+		#row_1__ID{
+			padding-bottom: 3px;
+		}
+	}
+</style>
 <script>
 function F__ID(){
     //------------------------
-    VmInclude:__BASE__/vmiis/Common-Code/grid/grid.js
-    VmInclude:__BASE__/vmiis/Common-Code/style/ease-in-out.js
+    VmInclude:__COMPONENT__/grid/grid.v3.js
     var report_type='d_';
     VmInclude:__CURRENT_PATH__/query.js
 }
 </script>
 <style>
-    VmInclude:__BASE__/vmiis/Common-Code/grid/grid.css
+    VmInclude:__COMPONENT__/grid/grid.v3.css
     #grid__ID tr td:nth-child(3),
     #grid__ID tr td:nth-child(4),
     #grid__ID tr td:nth-child(5),
